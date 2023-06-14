@@ -1,0 +1,125 @@
+﻿<Window x:Name="window" x:Class="PultOperatorNetCore.View.Identification"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:fa="http://schemas.fontawesome.io/icons/"
+        xmlns:local="clr-namespace:PultOperatorNetCore.View" 
+        xmlns:components="clr-namespace:PultOperatorNetCore.Components"
+        mc:Ignorable="d"
+        FocusManager.FocusedElement="{Binding ElementName=pass}"
+        Title="Identification" Height="190" Width="600" WindowStartupLocation="CenterScreen"  
+        AllowsTransparency="True" WindowStyle="None" Background="{x:Null}" 
+         ResizeMode="NoResize">
+
+    <Grid Margin="10" Background="White">
+        <Grid.Effect>
+            <DropShadowEffect Direction="265" Opacity="0.5" ShadowDepth="0" BlurRadius="10"/>
+        </Grid.Effect>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="15"></RowDefinition>
+                <RowDefinition></RowDefinition>
+            </Grid.RowDefinitions>
+            <Border Background="#0A6E9E"/>
+            <Grid Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,0,50,30"  Panel.ZIndex="1">
+                <Grid.Style>
+                    <Style TargetType="Grid">
+                        <Setter Property="Visibility" Value="Collapsed" />
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsLoading}" Value="True">
+                                <Setter Property="Visibility" Value="Visible"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Grid.Style>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <StackPanel>
+
+                    <fa:ImageAwesome Icon="Spinner" Foreground="#FF007BAB" 
+                                 Spin="True"  Height="50"  
+                                 SpinDuration="1" />
+                  
+                </StackPanel>
+            </Grid>
+            <Canvas Grid.Row="1"  >
+                <TextBox Text="{Binding Login}" x:Name="Login" FontSize="14"  
+                         Style="{DynamicResource styleLog}" 
+                         Tag=" Login" Height="24" Width="340"
+                         HorizontalAlignment="Right" Canvas.Left="131" Canvas.Top="32"/>
+                <components:BidablePasswordBox Password="{Binding Password, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                          FontSize="14"  Height="24" Width="340" 
+                                               x:Name="pass"
+                                               KeyDown="BidablePasswordBox_KeyDown"
+                         HorizontalAlignment="Right" Canvas.Left="131" Canvas.Top="65"/>
+                <Button Click="Button_Click" Cursor="Hand" Content="Выход"  Height="25" Width="155" Background="White" BorderThickness="2" BorderBrush="#0A6E9E" Canvas.Left="139" Canvas.Top="99" >
+                    <Button.Style>
+                        <Style TargetType="Button">
+                            <Setter Property="Foreground" Value="#0A6E9E"/>
+                        </Style>
+                    </Button.Style>
+                    <Button.Resources>
+                        <Style TargetType="{x:Type Border}">
+                            <Setter Property="CornerRadius" Value="5,0,0,5"/>
+                        </Style>
+                    </Button.Resources>
+                </Button>
+                <Button Cursor="Hand" Content="Вход" x:Name="button_1" 
+                       CommandParameter="{Binding ElementName=window}"
+                       Command="{Binding ExitCommand}"  Height="25" Width="164" Background="#0A6E9E" Foreground="White" BorderThickness="0" Canvas.Left="294" Canvas.Top="99" >
+
+                    <Button.Resources>
+                        <Style TargetType="Border">
+                            <Setter Property="CornerRadius" Value="0,5,5,0"/>
+                        </Style>
+                    </Button.Resources>
+                </Button>
+                <TextBlock Text="Изменит пароль" Cursor="Hand" Canvas.Left="333" Canvas.Top="132" Foreground="#60656E" FontSize="13" MouseDown="TextBlock_MouseDown_1" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+                <components:BidablePasswordBox Password="{Binding NewPassword, UpdateSourceTrigger=PropertyChanged}"  Height="24" Width="340" Canvas.Left="131" Canvas.Top="190"/>
+                <components:BidablePasswordBox Password="{Binding RepeatPassword, UpdateSourceTrigger=PropertyChanged}"  Height="24" Width="340" Canvas.Left="131" Canvas.Top="251"/>
+                <TextBlock Text="Введите пароль" Canvas.Left="131" Canvas.Top="166" Foreground="#60656E" FontSize="15"/>
+                <TextBlock Text="Повторите пароль" Canvas.Left="131" Canvas.Top="226" Foreground="#60656E" FontSize="15"/>
+                <Button Cursor="Hand" Command="{Binding UpdatePassword}" 
+                        CommandParameter="{Binding ElementName=window}" Content="Вход" x:Name="button_1_Copy" Height="25" Width="164" Background="#0A6E9E" Foreground="White" BorderThickness="0" Canvas.Left="294" Canvas.Top="286" >
+                    <Button.Resources>
+                        <Style TargetType="{x:Type Border}">
+                            <Setter Property="CornerRadius" Value="0,5,5,0"/>
+                        </Style>
+                    </Button.Resources>
+                </Button>
+                <CheckBox x:Name="savePassCB" 
+                          IsChecked="{Binding IsCheckedBox}"
+                          CommandParameter="{Binding ElementName=savePassCB}"
+                          Command="{Binding SaveDataToProjectCommand }"
+                          Content="Запомнить пароль" Canvas.Left="155" Canvas.Top="134" Height="22" Foreground="#60656E" Width="134" HorizontalAlignment="Center" VerticalAlignment="Top" />
+                <Image Source="../Images/icon/log.png" Height="28" Canvas.Left="98" Canvas.Top="30" Width="32"/>
+                <Image Source="/Images/Icon/pass.png" Height="28" Canvas.Left="100" Canvas.Top="64" Width="32" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                <Button Cursor="Hand" Click="Button_Click_1"
+                       
+                        Height="25" Width="110" Background="White"
+                        Foreground="White" BorderThickness="0" 
+                        Canvas.Left="140" Canvas.Top="287" 
+                        HorizontalAlignment="Left" VerticalAlignment="Top" >
+                    <Button.Content>
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="/Images/Icon/setting.png" Height="28" Canvas.Left="133" Canvas.Top="285" Width="32" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            <TextBlock VerticalAlignment="Center" Text="Настройка" Foreground="#0A6E9E" />
+                        </StackPanel>
+
+                    </Button.Content>
+                </Button>
+
+            </Canvas>
+        </Grid>
+        <TextBlock x:Name="MessageText"
+                   Foreground="Red"
+                   FontSize="14"
+                   Visibility="{Binding Visubilitu1}"
+                  TextAlignment="Center" TextWrapping="Wrap" 
+                   Text="{Binding Message}"
+                   VerticalAlignment="Top" Margin="114,22,98,0" Width="368"/>
+    </Grid>
+</Window>

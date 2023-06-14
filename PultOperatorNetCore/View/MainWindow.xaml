@@ -1,0 +1,321 @@
+﻿<Window x:Name="Mainwin" x:Class="PultOperatorNetCore.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PultOperatorNetCore"
+        mc:Ignorable="d"
+          Loaded="Window_Loaded"
+        Icon="../Images/Icon/icon.ico"
+        Title="PultOpertatora" Height="700" Width="400" WindowStyle="None" Background="Transparent" 
+    Topmost="True" Margin="0,0,0,0" AllowsTransparency="True" >
+
+
+    <!--Window Form-->
+    <Grid MouseLeave="Grid_MouseLeave">
+        
+        <Grid Width="300" HorizontalAlignment="Right" x:Name="GridPanel" Background="White">
+            <Grid.Effect>
+                <DropShadowEffect BlurRadius="10" Direction="250" ShadowDepth="1"/>
+            </Grid.Effect>
+            <Grid>
+                <Border BorderThickness="3" Background="Transparent" BorderBrush="#FF0070B8">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition/>
+                            <RowDefinition Height="275"/>
+                        </Grid.RowDefinitions>
+                        <!--Titul-->
+                        <Grid Background="#FF0070B8" Grid.Row="0" Panel.ZIndex="1">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                                <ColumnDefinition Width="65"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.Effect>
+                                <DropShadowEffect BlurRadius="10" Direction="250" ShadowDepth="1"/>
+                            </Grid.Effect>
+                            <!--Язык-->
+                            <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
+                                <Button Style="{DynamicResource BtnLng}" Content="RU" Click="Button_Click_1"/>
+                                <Button Style="{DynamicResource BtnLng}" Content="KG" Click="Button_Click_2"/>
+                                <Button Style="{DynamicResource BtnLng}" Content="ENG" Click="Button_Click_3"/>
+                            </StackPanel>
+                            <StackPanel Grid.Column="2" Orientation="Horizontal">
+                                <Button  Content="-" FontSize="20" Style="{DynamicResource BtnForm}"
+                                    Background="#FF0EA5BD" Click="Button_Click_4"/>
+
+                                <Button Content="X" Command="{Binding CloseWindowCommand}"
+                                        CommandParameter="{Binding ElementName=Mainwin}"
+                                        Style="{DynamicResource BtnForm}" 
+                                    Background="#FFBD1313"  />
+                            </StackPanel>
+
+                            <StackPanel Orientation="Horizontal" Grid.Column="0" Margin="10 0 0 0">
+                                <TextBlock x:Name="WindowNambe" Text="Окно №" FontSize="19" TextWrapping="Wrap" FontWeight="Bold" Foreground="White" 
+                       VerticalAlignment="Center" HorizontalAlignment="Center" Background="Transparent"/>
+                                <TextBlock Margin="10 0 0 0" Text="{Binding WindowNumber}" FontSize="22" TextWrapping="Wrap" FontWeight="Bold" Foreground="White" 
+                       VerticalAlignment="Center" HorizontalAlignment="Center" Background="Transparent"/>
+                            </StackPanel>
+                        </Grid>
+
+                        <!--Front-->
+                        <Grid Grid.Row="1">
+
+                            <!--Front центр-->
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="40"/>
+                                    <RowDefinition Height="*" x:Name="RowGrid"/>
+                                    <RowDefinition Height="85"/>
+                                </Grid.RowDefinitions>
+
+
+                                <!--Лист Список Ожидания-->
+                                <Grid Grid.Row="1">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="34*"/>
+                                        <ColumnDefinition Width="113*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <StackPanel Orientation="Vertical" Width="{Binding Width, ElementName=GridPanel}" VerticalAlignment="Top" Grid.ColumnSpan="2">
+                                        <Button Panel.ZIndex="1" 
+                                                Style="{DynamicResource BtnOchered}" 
+                                                x:Name="Button1" Height="40"
+                                                Click="Button1_Click">
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBlock x:Name="OzidanieBtn" 
+                                                           Text="Заверщённые"/>
+                                                <TextBlock Margin="10 0 0 0" 
+                                                Text="{Binding CompleteTurnCount}"/>
+                                            </StackPanel>
+                                            <Button.Effect>
+                                                <DropShadowEffect BlurRadius="10" Direction="250" ShadowDepth="1"/>
+                                            </Button.Effect>
+                                        </Button>
+                                        <ListBox  x:Name="List1" Height="0" Visibility="Hidden" ItemsSource="{Binding HistoryTurnList}" SelectedItem="{Binding SelectedTurn}">
+                                            <ListBox.ItemTemplate>
+                                                <DataTemplate>
+                                                    <Grid  VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
+                                                          >
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="60"/>
+                                                            <ColumnDefinition Width="*"/>
+                                                            <ColumnDefinition Width="*"/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <StackPanel Orientation="Horizontal" Margin="10,10,10,0" Grid.Column="0">
+                                                            <TextBlock  Text="{Binding Number}" FontWeight="Bold" FontSize="15"/>
+                                                        </StackPanel>
+                                                        <StackPanel Orientation="Horizontal" Margin="0,10,10,0" Grid.Column="1">
+                                                            <TextBlock Text="{Binding Services}"  FontSize="15"/>
+                                                        </StackPanel>
+                                                        <StackPanel Orientation="Horizontal" Margin="0,10,10,0" Grid.Column="2">
+                                                            <TextBlock Text="{Binding StartDate,  StringFormat='{}{0:dd.MM.yy / HH:mm}'}"  FontSize="15"/>
+                                                        </StackPanel>
+                                                    </Grid>
+                                                </DataTemplate>
+                                            </ListBox.ItemTemplate>
+                                        </ListBox>
+                                        <Button Panel.ZIndex="1" Style="{DynamicResource BtnOchered}"
+                                                x:Name="Button2" Height="40" Click="Button2_Click">
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBlock x:Name="OcheredBtn" Text="Очередь"/>
+                                                <TextBlock Margin="10 0 0 0" Text="{Binding ActiveTurnCount}"/>
+                                            </StackPanel>
+                                            <Button.Effect>
+                                                <DropShadowEffect BlurRadius="10" Direction="250" ShadowDepth="1"/>
+                                            </Button.Effect>
+                                        </Button>
+                                        <ListBox Height="180" x:Name="List2" ItemsSource="{Binding TurnList}" 
+                                                SelectedItem="{Binding SelectedTurn}">
+                                            <ListBox.ItemTemplate>
+                                                <DataTemplate>
+                                                    <Grid  VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
+                                                         >
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="60"/>
+                                                            <ColumnDefinition Width="*"/>
+                                                            <ColumnDefinition Width="*"/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <StackPanel Orientation="Horizontal" Margin="10,10,10,0" Grid.Column="0">
+                                                            <TextBlock  Text="{Binding Number}" FontWeight="Bold" FontSize="15"/>
+                                                        </StackPanel>
+                                                        <StackPanel Orientation="Horizontal" Margin="0,10,10,0" Grid.Column="1">
+                                                            <TextBlock Text="{Binding Service}"  FontSize="15"/>
+                                                        </StackPanel>
+                                                        <StackPanel Orientation="Horizontal" Margin="0,10,10,0" Grid.Column="2">
+                                                            <TextBlock Text="{Binding CameFrom}" 
+                                                                  FontWeight="Bold"    FontSize="14"/>
+                                                        </StackPanel>
+                                                    </Grid>
+                                                </DataTemplate>
+                                            </ListBox.ItemTemplate>
+                                        </ListBox>
+                                    </StackPanel>
+                                </Grid>
+
+                                <!--Имя Оператора-->
+                                <DockPanel Grid.Row="0" HorizontalAlignment="Left">
+                                    <Label Style="{DynamicResource LblPrior}" Content="{Binding UserName}" Foreground="#FF0070B8"/>
+                                </DockPanel>
+
+                                <!--№ Оператора-->
+                                <Grid Grid.Row="2" Background="White" 
+                                      Panel.ZIndex="1">
+                                    <Border BorderBrush="Aqua" BorderThickness="0,1,0,1">
+                                        <Label FontSize="70" FontWeight="Medium" 
+                                           Content="{Binding CurentTurn.Number}" 
+                                           Margin="0,-17,0,0"
+                                           Background="Transparent" 
+                                           Foreground="#515151" 
+                                           HorizontalAlignment="Center" 
+                                           VerticalAlignment="Top"/>
+                                    </Border>
+
+                                </Grid>
+
+                            </Grid>
+                        </Grid>
+
+                        <!--Font Нижний-->
+                        <Grid Grid.Row="2">
+
+                            <Grid x:Name="Grid1">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="50"/>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="85"/>
+                                    <RowDefinition Height="70"/>
+                                    <RowDefinition Height="20"/>
+                                </Grid.RowDefinitions>
+
+                                <Grid Grid.Row="0" Margin="0 7 0 0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition Width="0.561*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Button Command="{Binding NextCommand}"
+                                            Grid.Column="0"
+                                            Grid.Row="0"
+                                            Cursor="Hand" Width="134" 
+                                            x:Name="NextBtnPesr" 
+                                            Style="{DynamicResource ButtonNext}" 
+                                            Height="80"
+                                            Tag="Следуюший" Click="NextBtnPesr_Click" 
+                                            HorizontalAlignment="Left" Margin="8,6,0,-43"/>
+
+                                </Grid>
+                                <Grid Grid.Row="1">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="289*"/>
+                                        <ColumnDefinition Width="5*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Button Command="{Binding PauseCommand}"  
+                                            Cursor="Hand" Grid.Row="0" x:Name="Pause" 
+                                            Style="{DynamicResource ButtonNextFals}" 
+                                            Tag="Пауза"
+                                    Height="35" Width="134" Click="Next_Click" 
+                                            Margin="152,9,0,6" HorizontalAlignment="Left"/>
+                                    <Button Command="{Binding AbsenceCommand}"  
+                                        Cursor="Hand" Grid.Row="0" x:Name="ButtonFaile" 
+                                        Style="{DynamicResource ButtonNextFals}" 
+                                        Tag="Неявка"
+                                        Height="35" Width="135" Click="ButtonFaile_Click" 
+                                        Margin="152,54,0,-39" HorizontalAlignment="Left"/>
+                                    <Button x:Name="Vyzov" Grid.Row="0"
+                                            Command="{Binding CallCommand}" 
+                                            CommandParameter="{Binding  ElementName=Vyzov}"
+                                            FontSize="14"
+                                            Tag="Вызов" Foreground="Black"
+                                            Style="{DynamicResource ButtonNext}" HorizontalAlignment="Left" Margin="152,-40,0,50" Width="133" />
+                                </Grid>
+                                <Grid Grid.Row="2">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="147*"/>
+                                        <ColumnDefinition Width="64*"/>
+                                        <ColumnDefinition Width="84*"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <Grid Grid.Column="0" Margin="3,0,0,0">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="*"/>
+                                            <RowDefinition Height="*"/>
+                                        </Grid.RowDefinitions>
+                                        <Button Command="{Binding EndCommand}"  Cursor="Hand" x:Name="AndBtn" Style="{DynamicResource ButtonEnd}"
+                                    Height="35" Width="136" Tag="Завершить" Click="AndBtn_Click" Margin="2,0,0,0" HorizontalAlignment="Left" Grid.Row="1"/>
+                                    </Grid>
+
+                                    <!--Левая-->
+                                    <Grid Grid.Column="1" Grid.ColumnSpan="2">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="42"/>
+                                            <RowDefinition/>
+                                        </Grid.RowDefinitions>
+                                        <Button Command="{Binding ToKassaCommand}"  Cursor="Hand" Grid.Row="0" x:Name="Kassa" Style="{DynamicResource ButtonNext}" Tag="На кассу"
+                                    Height="35" Width="135" HorizontalAlignment="Left" Margin="-140,4,0,3" Click="Kassa_Click"/>
+                                        <Button Command="{Binding PostponeCommand}"  Cursor="Hand" Grid.Row="1" x:Name="Otlozhit" Style="{DynamicResource ButtonNext}" Tag="Отложить"
+                                    Height="35" Width="135" Click="Otlozhit_Click"/>
+                                    </Grid>
+                                </Grid>
+
+                                <!--нижная-->
+                                <Grid Grid.Row="3" Margin="0 5 0 0">
+                                    <StackPanel Orientation="Vertical">
+                                        <ComboBox  ItemsSource="{Binding UserList}" SelectedItem="{Binding SelectedUser}" Height="25" HorizontalAlignment="Center" Width="270" RenderTransformOrigin="0.504,0.52">
+                                            
+                                            <ComboBox.ItemTemplate>
+                                                <DataTemplate>
+                                                    <StackPanel>
+                                                        <TextBlock Text="{Binding UserName}"/>
+                                                    </StackPanel>
+                                                </DataTemplate>
+                                            </ComboBox.ItemTemplate>
+                                        </ComboBox>
+                                        <Button Command="{Binding RedirectCommand}" Grid.Row="1" x:Name="Perevod" Style="{DynamicResource ButtonNext}" Tag="Перенаправить"
+                                    Height="35" Margin="5" Click="Perevod_Click"/>
+                                    </StackPanel>
+                                </Grid>
+
+                                <!--Ожидание-->
+                                <Grid Grid.Row="4">
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="Автовызов через" Foreground="#FF0091BB"/>
+                                        <TextBlock Text="{Binding TimerCall}" Margin="5 0 0 0" Foreground="Red"/>
+                                        <TextBlock Text=" мин" Foreground="#FF0091BB"/>
+                                    </StackPanel>
+                                </Grid>
+
+                            </Grid>
+
+                        </Grid>
+                    </Grid>
+                </Border>
+            </Grid>
+            <Button Height="175" Width="50" x:Name="BtnHide" 
+                    HorizontalAlignment="Left" Cursor="Hand"
+                    VerticalAlignment="Bottom" Margin="-50 0 0 70" 
+                    Click="Button_Click_5" Style="{DynamicResource BtnShow}">
+                <StackPanel>
+                    <Image Source="../Images/icon/arrow.png" Width="40" Height="40"/>
+                    <Image Source="../Images/icon/arrow.png" Width="40" Height="40"/>
+                    <Image Source="../Images/icon/arrow.png" Width="40" Height="40"/>
+                    <Image Source="../Images/icon/arrow.png" Width="40" Height="40"/>
+                </StackPanel>
+            </Button>
+
+        </Grid>
+
+        <!--Открыт закрыт-->
+        <Button x:Name="BtnShow" HorizontalAlignment="Left" VerticalAlignment="Bottom"
+                Width="85" Height="85" Margin="18 0 0 0"
+                 Style="{DynamicResource BtnShow}"
+                Background="Transparent" Click="BtnShow_Click">
+            <Image Source="../Images/icon/move-left.png">
+                <Image.Effect>
+                    <DropShadowEffect BlurRadius="10" Direction="250" ShadowDepth="1"/>
+                </Image.Effect>
+            </Image>
+        </Button>
+    </Grid>
+</Window>
+

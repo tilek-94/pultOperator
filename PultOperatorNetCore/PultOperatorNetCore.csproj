@@ -1,0 +1,51 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <Nullable>enable</Nullable>
+    <UseWPF>true</UseWPF>
+    <ApplicationIcon>Graphicloads-Flat-Finance-System-settings.ico</ApplicationIcon>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Images\Icon\arrow.png" />
+    <None Remove="Images\Icon\close-window.png" />
+    <None Remove="Images\Icon\icon.ico" />
+    <None Remove="Images\Icon\log.png" />
+    <None Remove="Images\Icon\move-left.png" />
+    <None Remove="Images\Icon\pass.png" />
+    <None Remove="Images\Icon\setting.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Graphicloads-Flat-Finance-System-settings.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="FontAwesome.WPF" Version="4.7.0.9" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.32" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.32">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
+    <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="3.2.7" />
+    <PackageReference Include="System.Data.SQLite.Core" Version="1.0.117" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Images\Icon\arrow.png" />
+    <Resource Include="Images\Icon\close-window.png" />
+    <Resource Include="Images\Icon\icon.ico" />
+    <Resource Include="Images\Icon\log.png" />
+    <Resource Include="Images\Icon\move-left.png" />
+    <Resource Include="Images\Icon\pass.png" />
+    <Resource Include="Images\Icon\setting.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Properties\" />
+  </ItemGroup>
+
+</Project>
